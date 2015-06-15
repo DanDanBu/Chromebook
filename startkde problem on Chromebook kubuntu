@@ -1,0 +1,120 @@
+Acer Chromebook 11
+
+Crouton enter chroot with “sudo startkde” fail to open problem on chromebook shell :
+
+
+
+Entering /mnt/stateful_partition/crouton/chroots/precise...
+
+ERROR: ld.so: object '/usr/local/lib/croutonfreon.so' from LD_PRELOAD cannot be preloaded: ignored.
+_XSERVTransmkdir: Owner of /tmp/.X11-unix should be set to root
+
+X.Org X Server 1.15.1
+Release Date: 2014-04-13
+X Protocol Version 11, Revision 0
+Build Operating System: Linux 2.6.42-75-generic x86_64 Ubuntu
+Current Operating System: Linux localhost 3.10.18 #1 SMP Tue May 26 18:21:47 PDT 2015 x86_64
+Kernel command line: cros_secure console= loglevel=7 init=/sbin/init cros_secure oops=panic panic=-1 root=/dev/dm-0 rootwait ro dm_verity.error_behavior=3 dm_verity.max_bios=-1 dm_verity.dev_wait=1 dm="1 vroot none ro 1,0 2506752 verity payload=PARTUUID=39d2b406-d46b-fc4c-a0c5-f8d7a0d4d57a/PARTNROFF=1 hashtree=PARTUUID=39d2b406-d46b-fc4c-a0c5-f8d7a0d4d57a/PARTNROFF=1 hashstart=2506752 alg=sha1 root_hexdigest=01aa9fe6cc7309269961949e3e44f6edd5dac10a salt=9a6bbaa08eb20e097a35e159590e98fe8883f369395370c3dc07affaa83b2baf" noinitrd vt.global_cursor_default=0 kern_guid=39d2b406-d46b-fc4c-a0c5-f8d7a0d4d57a add_efi_memmap boot=local noresume noswap i915.modeset=1 tpm_tis.force=1 tpm_tis.interrupts=0 nmi_watchdog=panic,lapic  
+Build Date: 12 February 2015  03:37:52PM
+xorg-server 2:1.15.1-0ubuntu2~precise5 (For technical support please see http://www.ubuntu.com/support) 
+Current version of pixman: 0.30.2
+        Before reporting problems, check http://wiki.x.org
+        to make sure that you have the latest version.
+Markers: (--) probed, (**) from config file, (==) default setting,
+        (++) from command line, (!!) notice, (II) informational,
+        (WW) warning, (EE) error, (NI) not implemented, (??) unknown.
+(++) Log file: "/tmp/Xorg.crouton.1.log", Time: Mon Jun 15 11:00:46 2015
+(==) Using system config directory "/usr/share/X11/xorg.conf.d"
+setversion 1.4 failed: Permission denied
+Initializing built-in extension Generic Event Extension
+Initializing built-in extension SHAPE
+Initializing built-in extension MIT-SHM
+Initializing built-in extension XInputExtension
+Initializing built-in extension XTEST
+Initializing built-in extension BIG-REQUESTS
+Initializing built-in extension SYNC
+Initializing built-in extension XKEYBOARD
+Initializing built-in extension XC-MISC
+Initializing built-in extension SECURITY
+Initializing built-in extension XINERAMA
+Initializing built-in extension XFIXES
+Initializing built-in extension RENDER
+Initializing built-in extension RANDR
+Initializing built-in extension COMPOSITE
+Initializing built-in extension DAMAGE
+Initializing built-in extension MIT-SCREEN-SAVER
+Initializing built-in extension DOUBLE-BUFFER
+Initializing built-in extension RECORD
+Initializing built-in extension DPMS
+Initializing built-in extension X-Resource
+Initializing built-in extension XVideo
+Initializing built-in extension XVideo-MotionCompensation
+Initializing built-in extension XFree86-VidModeExtension
+Initializing built-in extension XFree86-DGA
+Initializing built-in extension XFree86-DRI
+Initializing built-in extension DRI2
+Loading extension GLX
+(EE) 
+Fatal server error:
+(EE) xf86OpenConsole: Cannot open /dev/tty0 (No such file or directory)
+(EE) 
+(EE) 
+Please consult the The X.Org Foundation support 
+         at http://wiki.x.org
+ for help. 
+(EE) Please also check the log file at "/tmp/Xorg.crouton.1.log" for additional information.
+(EE) 
+(EE) Server terminated with error (1). Closing log file.
+/usr/bin/xinit: giving up
+/usr/bin/xinit: unable to connect to X server: No such file or directory
+/usr/bin/xinit: server error
+Not unmounting /mnt/stateful_partition/crouton/chroots/precise as another instance is using it.
+ 
+
+My problem is that I don’t have R language packages public key to update my support packages 
+r-cran-mass r-cran-matrix r-cran-mgcv r-cran-nlme r-cran-nnet
+r-cran-rpart r-cran-spatial r-cran-survival r-doc-html
+
+
+
+
+Step1 : 
+If you are not sure what you miss , you can  just use 
+
+         		sudo enter-chroot 
+
+to get inside your ubuntu then use
+         	
+	          sudo apt-get update
+
+to check out what is your error or fail.
+
+
+
+Step2 : 
+	I don’t hava public key of http://cran.rstudio.com and there is an error occurs
+
+W: GPG error: http://cran.rstudio.com raring/ Release: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 51716619E084DAB9
+
+	Thus, I use the following two commands to solve this problem.
+
+gpg --keyserver pgpkeys.mit.edu --recv-key 51716619E084DAB9
+
+gpg -a --export 51716619E084DAB9 | sudo apt-key add -
+
+
+
+
+ Step3 : 
+	After I successfully add the public key , back to chrome bash use command
+		
+		sudo sh ~/Downloads/crouton -u
+
+
+
+After update , sudo startkde can normally run.
+
+
+		                                    Hope it can help people meet the same problem.
+									                      2015/6/15
+
